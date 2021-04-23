@@ -1,3 +1,3 @@
-package goclitem
+package hoofli
 
 var Exported = true

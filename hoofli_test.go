@@ -1,4 +1,4 @@
-package goclitem
+package hoofli
 
 import "testing"
 
