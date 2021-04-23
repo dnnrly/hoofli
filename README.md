@@ -1,37 +1,15 @@
-# Go CLI Template
+# hoofli
 
-This is a template for Go CLI tools. Major features are:
+Generate PlantUML diagrams from Crome network inspections
 
-1. Setup script
-2. Release build action
-3. PR validation action
-4. Code of Conduct
-5. Basic security policy
-6. Modules enabled
-7. Rudimentary accepance tests
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/dnnrly/hoofli)](https://github.com/dnnrly/hoofli/releases/latest)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/dnnrly/hoofli/Release%20workflow)](https://github.com/dnnrly/hoofli/actions?query=workflow%3A%22Release+workflow%22)
+[![report card](https://goreportcard.com/badge/github.com/dnnrly/hoofli)](https://goreportcard.com/report/github.com/dnnrly/hoofli)
+[![godoc](https://godoc.org/github.com/dnnrly/hoofli?status.svg)](http://godoc.org/github.com/dnnrly/hoofli)
 
-## Setup
-
-1. Create a new repo from this template
-2. `$ ./setup.sh`
-3. Follow the prompts
-
-Use the `-d` option to see what will be modified without changing any files.
-
-**You can delete everything above this line afterwards.**
-
-# Project Title
-
-One Paragraph of project description goes here
-
-[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/dnnrly/goclitem)](https://github.com/dnnrly/goclitem/releases/latest)
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/dnnrly/goclitem/Release%20workflow)](https://github.com/dnnrly/goclitem/actions?query=workflow%3A%22Release+workflow%22)
-[![report card](https://goreportcard.com/badge/github.com/dnnrly/goclitem)](https://goreportcard.com/report/github.com/dnnrly/goclitem)
-[![godoc](https://godoc.org/github.com/dnnrly/goclitem?status.svg)](http://godoc.org/github.com/dnnrly/goclitem)
-
-![GitHub watchers](https://img.shields.io/github/watchers/dnnrly/goclitem?style=social)
-![GitHub stars](https://img.shields.io/github/stars/dnnrly/goclitem?style=social)
-[![Twitter URL](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Fgithub.com%2Fdnnrly%2Fgoclitem)](https://twitter.com/intent/tweet?url=https://github.com/dnnrly/goclitem)
+![GitHub watchers](https://img.shields.io/github/watchers/dnnrly/hoofli?style=social)
+![GitHub stars](https://img.shields.io/github/stars/dnnrly/hoofli?style=social)
+[![Twitter URL](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Fgithub.com%2Fdnnrly%2Fhoofli)](https://twitter.com/intent/tweet?url=https://github.com/dnnrly/hoofli)
 
 
 ## Getting Started
@@ -49,8 +27,8 @@ Give examples
 ### Installing
 
 ```bash
-$ git clone http://github.com/dnnrly/goclitem.git
-$ cd goclitem
+$ git clone http://github.com/dnnrly/hoofli.git
+$ cd hoofli
 $ make install
 ```
 
@@ -87,13 +65,13 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/dnnrly/goclitem/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/dnnrly/hoofli/tags). 
 
 ## Authors
 
 * **Your name here** - *Initial work* - [dnnrly](https://github.com/dnnrly)
 
-See also the list of [contributors](https://github.com/dnnrly/goclitem/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/dnnrly/hoofli/contributors) who participated in this project.
 
 ## License
 
