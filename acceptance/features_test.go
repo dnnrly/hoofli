@@ -9,6 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// nolint
 type testContext struct {
 	err       error
 	cmdResult struct {
@@ -37,10 +38,12 @@ func (c *testContext) theAppExitsWithoutError() error {
 	return c.err
 }
 
+// nolint
 func InitializeTestSuite(ctx *godog.TestSuiteContext) {
 	ctx.BeforeSuite(func() {})
 }
 
+// nolint
 func InitializeScenario(ctx *godog.ScenarioContext) {
 	tc := testContext{}
 	ctx.BeforeScenario(func(*godog.Scenario) {})
