@@ -2,14 +2,18 @@ package hoofli_test
 
 import (
 	"bytes"
+	_ "embed"
 	"os"
 	"strings"
 	"testing"
 
 	"github.com/dnnrly/hoofli"
 	"github.com/stretchr/testify/require"
+)
 
-	"github.com/dnnrly/hoofli/test"
+var (
+	//go:embed test/reference/plantuml/simple-example.puml
+	simpleExample string
 )
 
 func TestCreatesHarFromGooglePage(t *testing.T) {
@@ -40,5 +44,5 @@ func TestDrawHar_SinglePage(t *testing.T) {
 	err := har.Draw(&output)
 
 	require.NoError(t, err)
-	require.Equal(t, test.SimpleExample, output.String())
+	require.Equal(t, simpleExample, output.String())
 }

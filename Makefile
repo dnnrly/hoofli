@@ -71,7 +71,7 @@ test:
 	$(GO_BIN) test -json ./... | tparse -all
 
 acceptance-test:
-	cd acceptance && godog -t @Acceptance
+	cd test && godog -t @Acceptance
  
 ci-test:
 	$(GO_BIN) test -race -coverprofile=coverage.txt -covermode=atomic ./...
