@@ -92,19 +92,21 @@ type Entry struct {
 
 type Entries []Entry
 
+type Log struct {
+	Version string   `json:"version"`
+	Creator Property `json:"creator"`
+	Browser Property `json:"browser"`
+	Pages   Pages    `json:"pages"`
+	Entries Entries  `json:"entries"`
+}
+
 // Har represents an entire HTTP Archive
 // See the following for more details:
 // - https://en.wikipedia.org/wiki/HAR_(file_format)
 // - http://www.softwareishard.com/blog/har-12-spec/
 // - https://w3c.github.io/web-performance/specs/HAR/Overview.html
 type Har struct {
-	Log struct {
-		Version string   `json:"version"`
-		Creator Property `json:"creator"`
-		Browser Property `json:"browser"`
-		Pages   Pages    `json:"pages"`
-		Entries Entries  `json:"entries"`
-	} `json:"log"`
+	Log Log `json:"log"`
 }
 
 func NewHar(r io.Reader) (*Har, error) {

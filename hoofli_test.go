@@ -1,12 +1,15 @@
 package hoofli_test
 
 import (
+	"bytes"
 	"os"
 	"strings"
 	"testing"
 
 	"github.com/dnnrly/hoofli"
 	"github.com/stretchr/testify/require"
+
+	"github.com/dnnrly/hoofli/test"
 )
 
 func TestCreatesHarFromGooglePage(t *testing.T) {
@@ -22,4 +25,20 @@ func TestCreatesHarFromGooglePage(t *testing.T) {
 func TestNewHar_ParsingFailure(t *testing.T) {
 	_, err := hoofli.NewHar(strings.NewReader("{xyz"))
 	require.Error(t, err)
+}
+
+func TestDrawHar_SinglePage(t *testing.T) {
+	har := hoofli.Har{
+		Log: hoofli.Log{
+			Pages: []hoofli.Page{{
+				Title: "https://example.com",
+			}},
+		},
+	}
+
+	var output bytes.Buffer
+	err := har.Draw(&output)
+
+	require.NoError(t, err)
+	require.Equal(t, test.SimpleExample, output.String())
 }

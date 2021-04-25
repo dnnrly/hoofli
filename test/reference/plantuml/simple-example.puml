@@ -1,0 +1,9 @@
+@startuml
+
+participant Browser
+
+->Browser : https://example.com
+activate Browser
+deactivate Browser
+
+@enduml
