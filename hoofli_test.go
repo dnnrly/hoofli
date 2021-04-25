@@ -35,7 +35,18 @@ func TestDrawHar_SinglePage(t *testing.T) {
 	har := hoofli.Har{
 		Log: hoofli.Log{
 			Pages: []hoofli.Page{{
-				Title: "https://example.com",
+				ID:    "page-1",
+				Title: "Example",
+			}},
+			Entries: []hoofli.Entry{{
+				Pageref: "page-1",
+				Request: hoofli.Request{
+					Method: "GET",
+					URL:    "https://example.com/page-1",
+				},
+				Response: hoofli.Response{
+					Status: 200,
+				},
 			}},
 		},
 	}

@@ -2,8 +2,10 @@
 
 participant Browser
 
-->Browser : https://example.com
+->Browser : Example
 activate Browser
+Browser->"example.com" ++ : GET https://example.com/page-1
+return 200
 deactivate Browser
 
 @enduml
