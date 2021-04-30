@@ -1,4 +1,4 @@
-package features_test
+package test_test
 
 import (
 	"fmt"
@@ -9,6 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// nolint
 type testContext struct {
 	err       error
 	cmdResult struct {
@@ -37,13 +38,27 @@ func (c *testContext) theAppExitsWithoutError() error {
 	return c.err
 }
 
+func (c *testContext) theAppExitsWithAnError() error {
+	assert.Error(c, c.cmdResult.Err)
+	return c.err
+}
+
+func (c *testContext) theAppOutputContains(expected string) error {
+	assert.Contains(c, c.cmdResult.Output, expected)
+	return c.err
+}
+
+// nolint
 func InitializeTestSuite(ctx *godog.TestSuiteContext) {
 	ctx.BeforeSuite(func() {})
 }
 
+// nolint
 func InitializeScenario(ctx *godog.ScenarioContext) {
 	tc := testContext{}
 	ctx.BeforeScenario(func(*godog.Scenario) {})
 	ctx.Step(`^the app runs with parameters "([^"]*)"$`, tc.theAppRunsWithParameters)
 	ctx.Step(`^the app exits without error$`, tc.theAppExitsWithoutError)
+	ctx.Step(`^the app exits with an error$`, tc.theAppExitsWithAnError)
+	ctx.Step(`^the app output contains "([^"]*)"$`, tc.theAppOutputContains)
 }
