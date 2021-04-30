@@ -10,6 +10,8 @@ require (
 	github.com/gofrs/uuid v4.0.0+incompatible // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/hashicorp/go-memdb v1.3.2 // indirect
+	github.com/mkideal/cli v0.2.5 // indirect
+	github.com/mkideal/pkg v0.1.2 // indirect
 	github.com/spf13/cobra v1.1.3
 	github.com/stretchr/testify v1.6.1
 	github.com/ugorji/go/codec v0.0.0-20181204163529-d75b2dcb6bc8 // indirect

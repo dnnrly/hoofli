@@ -1,27 +1,29 @@
 package main
 
 import (
-	"flag"
-	"fmt"
 	"os"
+	"strings"
+
+	"github.com/mkideal/cli"
+	clix "github.com/mkideal/cli/ext"
 
 	"github.com/dnnrly/hoofli"
 )
 
+type args struct {
+	Input clix.File `cli:"*i,input" usage:"the location of a HAR file to parse"`
+}
+
 func main() {
-	var harFile string
-	flag.StringVar(&harFile, "har", "", "the location of a HAR file to parse")
+	os.Exit(cli.Run(new(args), func(ctx *cli.Context) error {
+		argv := ctx.Argv().(*args)
+		ir := strings.NewReader(argv.Input.String())
+		har, err := hoofli.NewHar(ir)
+		if err != nil {
+			return nil
+		}
 
-	flag.Parse()
-
-	if harFile == "" {
-		fmt.Fprintln(os.Stderr, "must specify HAR input")
-		os.Exit(1)
-	}
-
-	hf, _ := os.Open(harFile)
-	defer hf.Close()
-
-	har, _ := hoofli.NewHar(hf)
-	_ = har.Draw(os.Stdout)
+		_ = har.Draw(os.Stdout)
+		return nil
+	}))
 }
