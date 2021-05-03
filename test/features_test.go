@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// nolint
+//nolint: unused
 type testContext struct {
 	err       error
 	cmdResult struct {
@@ -25,7 +25,8 @@ func (c *testContext) Errorf(format string, args ...interface{}) {
 }
 
 func (c *testContext) theAppRunsWithParameters(args string) error {
-	cmd := exec.Command("../hoofli", strings.Split(args, " ")...)
+	cmdArgs := strings.Split(args, " ")
+	cmd := exec.Command("../hoofli", cmdArgs...)
 	output, err := cmd.CombinedOutput()
 	c.cmdResult.Output = string(output)
 	c.cmdResult.Err = err
@@ -48,12 +49,12 @@ func (c *testContext) theAppOutputContains(expected string) error {
 	return c.err
 }
 
-// nolint
+//nolint: unused
 func InitializeTestSuite(ctx *godog.TestSuiteContext) {
 	ctx.BeforeSuite(func() {})
 }
 
-// nolint
+//nolint: unused
 func InitializeScenario(ctx *godog.ScenarioContext) {
 	tc := testContext{}
 	ctx.BeforeScenario(func(*godog.Scenario) {})
