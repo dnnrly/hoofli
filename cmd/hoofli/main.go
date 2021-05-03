@@ -11,7 +11,13 @@ import (
 )
 
 type args struct {
+	Help  bool      `cli:"!h,help" usage:"show help"`
 	Input clix.File `cli:"*i,input" usage:"the location of a HAR file to parse"`
+}
+
+// AutoHelp implements cli.AutoHelper interface
+func (a *args) AutoHelp() bool {
+	return a.Help
 }
 
 func main() {
