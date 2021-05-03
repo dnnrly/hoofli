@@ -57,6 +57,11 @@ func InitializeTestSuite(ctx *godog.TestSuiteContext) {
 func InitializeScenario(ctx *godog.ScenarioContext) {
 	tc := testContext{}
 	ctx.BeforeScenario(func(*godog.Scenario) {})
+	ctx.AfterScenario(func(s *godog.Scenario, err error) {
+		if err != nil {
+			fmt.Printf("Command line output for \"%s\"\n%s", s.GetName(), tc.cmdResult.Output)
+		}
+	})
 	ctx.Step(`^the app runs with parameters "([^"]*)"$`, tc.theAppRunsWithParameters)
 	ctx.Step(`^the app exits without error$`, tc.theAppExitsWithoutError)
 	ctx.Step(`^the app exits with an error$`, tc.theAppExitsWithAnError)
