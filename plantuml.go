@@ -14,13 +14,17 @@ func (h *Har) Draw(w io.Writer) error {
 	for _, p := range h.Log.Pages {
 		fmt.Fprintf(w, "->Browser : %s\n", p.Title)
 		fmt.Fprintln(w, "activate Browser")
-		for _, e := range h.Log.Entries {
-			dest := e.Request.URL
-			if url, err := url.Parse(dest); err == nil {
-				dest = url.Host
+		for i := range h.Log.Entries {
+			dest := h.Log.Entries[i].Request.URL
+			if parsedURL, err := url.Parse(dest); err == nil {
+				dest = parsedURL.Host
 			}
-			fmt.Fprintf(w, "Browser->\"%s\" ++ : %s %s\n", dest, e.Request.Method, e.Request.URL)
-			fmt.Fprintf(w, "return %d\n", e.Response.Status)
+			fmt.Fprintf(w, "Browser->\"%s\" ++ : %s %s\n",
+				dest,
+				h.Log.Entries[i].Request.Method,
+				h.Log.Entries[i].Request.URL,
+			)
+			fmt.Fprintf(w, "return %d\n", h.Log.Entries[i].Response.Status)
 		}
 		fmt.Fprintln(w, "deactivate Browser")
 	}

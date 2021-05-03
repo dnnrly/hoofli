@@ -76,7 +76,7 @@ acceptance-test:
 ci-test:
 	$(GO_BIN) test -race -coverprofile=coverage.txt -covermode=atomic ./...
 
-lint: ./bin/golangci-lint
+lint:
 	golangci-lint run
 
 release: clean
