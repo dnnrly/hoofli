@@ -13,6 +13,8 @@ jobs:
         run: make deps
       - name: Unit test
         run: make ci-test
+      - name: Linting
+        run: make lint
       - name: Acceptance test
         run: make build acceptance-test
       - name: Upload coverage to Codecov
