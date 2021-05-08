@@ -3,6 +3,7 @@ package hoofli
 import (
 	"encoding/json"
 	"io"
+	"regexp"
 	"time"
 )
 
@@ -91,6 +92,17 @@ type Entry struct {
 }
 
 type Entries []Entry
+
+func (e Entries) ExcludeByURL(pattern string) Entries {
+	result := Entries{}
+	for i := range e {
+		p := regexp.MustCompile(pattern)
+		if !p.MatchString(e[i].Request.URL) {
+			result = append(result, e[i])
+		}
+	}
+	return result
+}
 
 type Log struct {
 	Version string   `json:"version"`

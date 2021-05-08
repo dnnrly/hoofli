@@ -114,3 +114,27 @@ func TestDrawHar_MultiPage(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, output.String(), multipageExample)
 }
+
+func TestEntriesFilter_FixedPattern(t *testing.T) {
+	entries := hoofli.Entries{
+		{Request: hoofli.Request{URL: "https://example.com/page-1"}},
+		{Request: hoofli.Request{URL: "https://example.com/page-2"}},
+		{Request: hoofli.Request{URL: "https://another.com/"}},
+	}
+
+	filtered := entries.ExcludeByURL("another")
+
+	require.Len(t, filtered, 2)
+}
+
+func TestEntriesFilter_Regex(t *testing.T) {
+	entries := hoofli.Entries{
+		{Request: hoofli.Request{URL: "https://example.com/page-1"}},
+		{Request: hoofli.Request{URL: "https://example.com/page-2"}},
+		{Request: hoofli.Request{URL: "https://another.com/"}},
+	}
+
+	filtered := entries.ExcludeByURL("(another|2)")
+
+	require.Len(t, filtered, 1)
+}

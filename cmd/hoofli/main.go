@@ -21,15 +21,17 @@ func (a *args) AutoHelp() bool {
 }
 
 func main() {
-	os.Exit(cli.Run(new(args), func(ctx *cli.Context) error {
-		argv := ctx.Argv().(*args)
-		ir := strings.NewReader(argv.Input.String())
-		har, err := hoofli.NewHar(ir)
-		if err != nil {
-			return nil
-		}
+	os.Exit(cli.Run(new(args), rootCmd))
+}
 
-		_ = har.Draw(os.Stdout)
+func rootCmd(ctx *cli.Context) error {
+	argv := ctx.Argv().(*args)
+	ir := strings.NewReader(argv.Input.String())
+	har, err := hoofli.NewHar(ir)
+	if err != nil {
 		return nil
-	}))
+	}
+
+	_ = har.Draw(os.Stdout)
+	return nil
 }
