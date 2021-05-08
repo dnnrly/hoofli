@@ -24,8 +24,8 @@ type Page struct {
 	ID              string    `json:"id"`
 	Title           string    `json:"title"`
 	Pagetimings     struct {
-		Oncontentload int `json:"onContentLoad"`
-		Onload        int `json:"onLoad"`
+		Oncontentload float32 `json:"onContentLoad"`
+		Onload        float32 `json:"onLoad"`
 	} `json:"pageTimings"`
 }
 
@@ -44,13 +44,13 @@ type Response struct {
 }
 
 type Timing struct {
-	Blocked int `json:"blocked"`
-	DNS     int `json:"dns"`
-	Connect int `json:"connect"`
-	Ssl     int `json:"ssl"`
-	Send    int `json:"send"`
-	Wait    int `json:"wait"`
-	Receive int `json:"receive"`
+	Blocked float32 `json:"blocked"`
+	DNS     float32 `json:"dns"`
+	Connect float32 `json:"connect"`
+	Ssl     float32 `json:"ssl"`
+	Send    float32 `json:"send"`
+	Wait    float32 `json:"wait"`
+	Receive float32 `json:"receive"`
 }
 
 type Cache struct {
@@ -82,7 +82,7 @@ type Entry struct {
 	Starteddatetime time.Time `json:"startedDateTime"`
 	Response        Response  `json:"response,omitempty"`
 	Timings         Timing    `json:"timings"`
-	Time            int       `json:"time"`
+	Time            float32   `json:"time"`
 	Securitystate   string    `json:"_securityState"`
 	Serveripaddress string    `json:"serverIPAddress,omitempty"`
 	Connection      string    `json:"connection,omitempty"`
