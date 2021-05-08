@@ -15,6 +15,8 @@ coverage.txt
 
 # Local data that shouldn't be included
 /*.har
+/*.puml
+/*.png
 
 /hoofli
 
