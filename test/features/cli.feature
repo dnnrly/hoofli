@@ -17,4 +17,4 @@ Feature: Simple CLI commands
         When the app runs with parameters "--input reference/har/google-frontpage.har"
         Then the app exits without error
         And the app output contains "->Browser : Google"
-        # And the app output contains "Browser->www.google.com : GET https://www.google.com/"
+        And the app output contains "Browser->\"www.google.com\" ++ : GET https://www.google.com/"

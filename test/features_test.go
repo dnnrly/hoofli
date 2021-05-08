@@ -45,6 +45,7 @@ func (c *testContext) theAppExitsWithAnError() error {
 }
 
 func (c *testContext) theAppOutputContains(expected string) error {
+	expected = strings.ReplaceAll(expected, "\\\"", "\"")
 	assert.Contains(c, c.cmdResult.Output, expected)
 	return c.err
 }
@@ -66,5 +67,5 @@ func InitializeScenario(ctx *godog.ScenarioContext) {
 	ctx.Step(`^the app runs with parameters "([^"]*)"$`, tc.theAppRunsWithParameters)
 	ctx.Step(`^the app exits without error$`, tc.theAppExitsWithoutError)
 	ctx.Step(`^the app exits with an error$`, tc.theAppExitsWithAnError)
-	ctx.Step(`^the app output contains "([^"]*)"$`, tc.theAppOutputContains)
+	ctx.Step(`^the app output contains "(.*)"$`, tc.theAppOutputContains)
 }

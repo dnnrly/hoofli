@@ -1,0 +1,116 @@
+package hoofli_test
+
+import (
+	"bytes"
+	_ "embed"
+	"os"
+	"strings"
+	"testing"
+
+	"github.com/dnnrly/hoofli"
+	"github.com/stretchr/testify/require"
+)
+
+var (
+	//go:embed test/reference/plantuml/simple-example.puml
+	simpleExample string
+	//go:embed test/reference/plantuml/multipage-example.puml
+	multipageExample string
+)
+
+func TestCreatesHarFromGooglePage(t *testing.T) {
+	file, err := os.Open("test/reference/har/google-frontpage.har")
+	require.NoError(t, err)
+
+	har, err := hoofli.NewHar(file)
+	require.NoError(t, err)
+	require.Equal(t, 1, len(har.Log.Pages))
+	require.Equal(t, 22, len(har.Log.Entries))
+}
+
+func TestCreatesHarFromHackernewsPages(t *testing.T) {
+	file, err := os.Open("test/reference/har/hackernews.har")
+	require.NoError(t, err)
+
+	har, err := hoofli.NewHar(file)
+	require.NoError(t, err)
+	require.Equal(t, 2, len(har.Log.Pages))
+	require.Equal(t, 12, len(har.Log.Entries))
+}
+
+func TestNewHar_ParsingFailure(t *testing.T) {
+	_, err := hoofli.NewHar(strings.NewReader("{xyz"))
+	require.Error(t, err)
+}
+
+func TestDrawHar_SinglePage(t *testing.T) {
+	har := hoofli.Har{
+		Log: hoofli.Log{
+			Pages: []hoofli.Page{{
+				ID:    "page-1",
+				Title: "Example",
+			}},
+			Entries: []hoofli.Entry{{
+				Pageref: "page-1",
+				Request: hoofli.Request{
+					Method: "GET",
+					URL:    "https://example.com/page-1",
+				},
+				Response: hoofli.Response{
+					Status: 200,
+				},
+			}},
+		},
+	}
+
+	var output bytes.Buffer
+	err := har.Draw(&output)
+
+	require.NoError(t, err)
+	require.Equal(t, output.String(), simpleExample)
+}
+
+func TestDrawHar_MultiPage(t *testing.T) {
+	har := hoofli.Har{
+		Log: hoofli.Log{
+			Pages: []hoofli.Page{
+				{
+					ID:    "page-1",
+					Title: "Example",
+				},
+				{
+					ID:    "page-2",
+					Title: "Another Example",
+				},
+			},
+			Entries: []hoofli.Entry{
+				{
+					Pageref: "page-1",
+					Request: hoofli.Request{
+						Method: "GET",
+						URL:    "https://example.com/page-1",
+					},
+					Response: hoofli.Response{
+						Status: 200,
+					},
+				},
+				{
+					Pageref: "page-2",
+					Request: hoofli.Request{
+						Method: "GET",
+						URL:    "https://example.com/page-2",
+					},
+					Response: hoofli.Response{
+						Status: 200,
+					},
+				},
+			},
+		},
+	}
+
+	var output bytes.Buffer
+	err := har.Draw(&output)
+
+	require.NoError(t, err)
+	require.Equal(t, output.String(), multipageExample)
+}
