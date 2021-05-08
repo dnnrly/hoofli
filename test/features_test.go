@@ -50,6 +50,12 @@ func (c *testContext) theAppOutputContains(expected string) error {
 	return c.err
 }
 
+func (c *testContext) theAppOutputDoesNotContain(unexpected string) error {
+	unexpected = strings.ReplaceAll(unexpected, "\\\"", "\"")
+	assert.NotContains(c, c.cmdResult.Output, unexpected)
+	return c.err
+}
+
 //nolint: unused
 func InitializeTestSuite(ctx *godog.TestSuiteContext) {
 	ctx.BeforeSuite(func() {})
@@ -64,8 +70,9 @@ func InitializeScenario(ctx *godog.ScenarioContext) {
 			fmt.Printf("Command line output for \"%s\"\n%s", s.GetName(), tc.cmdResult.Output)
 		}
 	})
-	ctx.Step(`^the app runs with parameters "([^"]*)"$`, tc.theAppRunsWithParameters)
+	ctx.Step(`^the app runs with parameters "(.*)"$`, tc.theAppRunsWithParameters)
 	ctx.Step(`^the app exits without error$`, tc.theAppExitsWithoutError)
 	ctx.Step(`^the app exits with an error$`, tc.theAppExitsWithAnError)
 	ctx.Step(`^the app output contains "(.*)"$`, tc.theAppOutputContains)
+	ctx.Step(`^the app output does not contain "(.*)"$`, tc.theAppOutputDoesNotContain)
 }

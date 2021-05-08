@@ -18,3 +18,9 @@ Feature: Simple CLI commands
         Then the app exits without error
         And the app output contains "->Browser : Google"
         And the app output contains "Browser->\"www.google.com\" ++ : GET https://www.google.com/"
+
+    @Acceptance
+    Scenario: Generates plantiml to STDOUT from a HAR file
+        When the app runs with parameters "--input reference/har/google-frontpage.har --exclude-url \"(adsense|gstatic|doubleclick|apis.google|ogs.google)\""
+        Then the app exits without error
+        And the app output does not contain "gstatic"
