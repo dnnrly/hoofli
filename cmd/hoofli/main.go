@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"strings"
 
@@ -30,7 +31,7 @@ func rootCmd(ctx *cli.Context) error {
 	ir := strings.NewReader(argv.Input.String())
 	har, err := hoofli.NewHar(ir)
 	if err != nil {
-		return nil
+		return fmt.Errorf("unable to parse HAR file: %w", err)
 	}
 
 	for _, pattern := range argv.ExcludeURL {
