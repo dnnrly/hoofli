@@ -11,7 +11,10 @@ import (
 
 //nolint: unused
 type testContext struct {
-	err       error
+	err      error
+	cmdInput struct {
+		parameters string
+	}
 	cmdResult struct {
 		Output string
 		Err    error
@@ -25,6 +28,7 @@ func (c *testContext) Errorf(format string, args ...interface{}) {
 }
 
 func (c *testContext) theAppRunsWithParameters(args string) error {
+	c.cmdInput.parameters = args
 	cmdArgs := strings.Split(args, " ")
 	cmd := exec.Command("../hoofli", cmdArgs...)
 	output, err := cmd.CombinedOutput()
@@ -67,7 +71,12 @@ func InitializeScenario(ctx *godog.ScenarioContext) {
 	ctx.BeforeScenario(func(*godog.Scenario) {})
 	ctx.AfterScenario(func(s *godog.Scenario, err error) {
 		if err != nil {
-			fmt.Printf("Command line output for \"%s\"\n%s", s.GetName(), tc.cmdResult.Output)
+			fmt.Printf(
+				"Command line output for \"%s\"\nUsing parameters: %s\n%s",
+				s.GetName(),
+				tc.cmdInput.parameters,
+				tc.cmdResult.Output,
+			)
 		}
 	})
 	ctx.Step(`^the app runs with parameters "(.*)"$`, tc.theAppRunsWithParameters)
