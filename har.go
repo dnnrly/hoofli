@@ -3,12 +3,13 @@ package hoofli
 import (
 	"encoding/json"
 	"io"
+	"regexp"
 	"time"
 )
 
 type Property struct {
-	Name    string `json:"name"`
-	Version string `json:"version"`
+	Name  string `json:"name"`
+	Value string `json:"value"`
 }
 
 type Properties []Property
@@ -91,6 +92,35 @@ type Entry struct {
 }
 
 type Entries []Entry
+
+func (e Entries) ExcludeByURL(pattern string) Entries {
+	result := Entries{}
+	for i := range e {
+		p := regexp.MustCompile(pattern)
+		if !p.MatchString(e[i].Request.URL) {
+			result = append(result, e[i])
+		}
+	}
+	return result
+}
+
+func (e Entries) ExcludeByResponseHeader(header, value string) Entries {
+	result := Entries{}
+	p := regexp.MustCompile(value)
+	for i := range e {
+		matched := false
+		for j := range e[i].Response.Headers {
+			h := e[i].Response.Headers[j]
+			if h.Name == header && p.MatchString(h.Value) {
+				matched = true
+			}
+		}
+		if !matched {
+			result = append(result, e[i])
+		}
+	}
+	return result
+}
 
 type Log struct {
 	Version string   `json:"version"`
