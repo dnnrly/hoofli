@@ -115,7 +115,7 @@ func TestDrawHar_MultiPage(t *testing.T) {
 	require.Equal(t, output.String(), multipageExample)
 }
 
-func TestEntriesFilter_FixedPattern(t *testing.T) {
+func TestEntriesURLFilter_FixedPattern(t *testing.T) {
 	entries := hoofli.Entries{
 		{Request: hoofli.Request{URL: "https://example.com/page-1"}},
 		{Request: hoofli.Request{URL: "https://example.com/page-2"}},
@@ -127,7 +127,7 @@ func TestEntriesFilter_FixedPattern(t *testing.T) {
 	require.Len(t, filtered, 2)
 }
 
-func TestEntriesFilter_Regex(t *testing.T) {
+func TestEntriesURLFilter_Regex(t *testing.T) {
 	entries := hoofli.Entries{
 		{Request: hoofli.Request{URL: "https://example.com/page-1"}},
 		{Request: hoofli.Request{URL: "https://example.com/page-2"}},
@@ -137,4 +137,22 @@ func TestEntriesFilter_Regex(t *testing.T) {
 	filtered := entries.ExcludeByURL("(another|2)")
 
 	require.Len(t, filtered, 1)
+}
+
+func TestEntriesResponseHeaderFilter_RegexOnHeaderValue(t *testing.T) {
+	entries := hoofli.Entries{
+		{Response: hoofli.Response{Headers: hoofli.Properties{
+			{Name: "some-header", Value: "application/json"},
+			{Name: "content-type", Value: "application/text"},
+		}}},
+		{Response: hoofli.Response{Headers: hoofli.Properties{{Name: "content-type", Value: "application/json"}}}},
+		{Response: hoofli.Response{Headers: hoofli.Properties{{Name: "content-type", Value: "text/json"}}}},
+		{Response: hoofli.Response{Headers: hoofli.Properties{{Name: "content-type", Value: "application/yaml"}}}},
+		{Response: hoofli.Response{Headers: hoofli.Properties{{Name: "content-type-extra", Value: "application/yaml"}}}},
+	}
+
+	require.Len(t, entries.ExcludeByResponseHeader("content-type", ".*"), 1)
+	require.Len(t, entries.ExcludeByResponseHeader("some-header", ".*"), 4)
+	require.Len(t, entries.ExcludeByResponseHeader("content-type", ".+json"), 3)
+	require.Len(t, entries.ExcludeByResponseHeader("content-type", "json"), 3)
 }

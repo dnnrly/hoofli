@@ -27,7 +27,13 @@ Feature: Simple CLI commands
         And the app output contains "gstatic"
 
     @Acceptance
-    Scenario: Generates plantiml to STDOUT from a HAR file
+    Scenario: Excludes interactions by URL
         When the app runs with parameters "--input reference/har/google-frontpage.har --exclude-url (adsense|gstatic|doubleclick|apis.google|ogs.google)"
         Then the app exits without error
         And the app output does not contain "gstatic"
+
+    @Acceptance
+    Scenario: Excludes interactions by header value
+        When the app runs with parameters "--input reference/har/google-frontpage.har --exclude-header content-type=image/.+"
+        Then the app exits without error
+        And the app output does not contain "googlelogo_color_272x92dp.png"

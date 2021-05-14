@@ -4,15 +4,28 @@ import (
 	"encoding/json"
 	"io"
 	"regexp"
+	"strings"
 	"time"
 )
 
 type Property struct {
-	Name    string `json:"name"`
-	Version string `json:"version"`
+	Name  string `json:"name"`
+	Value string `json:"value"`
+}
+
+func (p Property) String() string {
+	return p.Name + "=" + p.Value
 }
 
 type Properties []Property
+
+func (p Properties) String() string {
+	ps := []string{}
+	for _, v := range p {
+		ps = append(ps, v.String())
+	}
+	return "[" + strings.Join(ps, ", ") + "]"
+}
 
 type Content struct {
 	Mimetype string `json:"mimeType"`
@@ -98,6 +111,24 @@ func (e Entries) ExcludeByURL(pattern string) Entries {
 	for i := range e {
 		p := regexp.MustCompile(pattern)
 		if !p.MatchString(e[i].Request.URL) {
+			result = append(result, e[i])
+		}
+	}
+	return result
+}
+
+func (e Entries) ExcludeByResponseHeader(header, value string) Entries {
+	result := Entries{}
+	p := regexp.MustCompile(value)
+	for i := range e {
+		matched := false
+		for j := range e[i].Response.Headers {
+			h := e[i].Response.Headers[j]
+			if h.Name == header && p.MatchString(h.Value) {
+				matched = true
+			}
+		}
+		if !matched {
 			result = append(result, e[i])
 		}
 	}
