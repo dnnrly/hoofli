@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"io"
 	"regexp"
-	"strings"
 	"time"
 )
 
@@ -13,19 +12,7 @@ type Property struct {
 	Value string `json:"value"`
 }
 
-func (p Property) String() string {
-	return p.Name + "=" + p.Value
-}
-
 type Properties []Property
-
-func (p Properties) String() string {
-	ps := []string{}
-	for _, v := range p {
-		ps = append(ps, v.String())
-	}
-	return "[" + strings.Join(ps, ", ") + "]"
-}
 
 type Content struct {
 	Mimetype string `json:"mimeType"`
