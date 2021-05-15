@@ -1,6 +1,6 @@
 # hoofli
 
-Generate PlantUML diagrams from Crome network inspections
+Generate PlantUML diagrams from Chrome or Firefox network inspections
 
 [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/dnnrly/hoofli)](https://github.com/dnnrly/hoofli/releases/latest)
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/dnnrly/hoofli/Release%20workflow)](https://github.com/dnnrly/hoofli/actions?query=workflow%3A%22Release+workflow%22)
@@ -11,25 +11,14 @@ Generate PlantUML diagrams from Crome network inspections
 ![GitHub stars](https://img.shields.io/github/stars/dnnrly/hoofli?style=social)
 [![Twitter URL](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Fgithub.com%2Fdnnrly%2Fhoofli)](https://twitter.com/intent/tweet?url=https://github.com/dnnrly/hoofli)
 
-
-## Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
-### Prerequisites
-
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
+This tool reads browser HAR files stored on your local disk and transforms them into
+PlantUML formatted files. You will need to download PlantUML from https://plantuml.com/
+or use the package management tool of your choice
 
 ### Installing
 
 ```bash
-$ git clone http://github.com/dnnrly/hoofli.git
-$ cd hoofli
-$ make install
+$ go install github.com/dnnrly/hoofli/cmd/hoofli
 ```
 
 ### Running Unit Tests
@@ -47,16 +36,20 @@ $ make build acceptance-test
 
 ## Important `make` targets
 
-* `deps` - downloads all of the deps you need to build, test, and release
-* `install` - installs your application
-* `build` - builds your application
-* `test` - runs unit tests
-* `ci-test` - run tests for CI validation
-* `acceptance-test` - run the acceptance tests
-* `lint` -  run linting
-* `update` - update Go dependencies
-* `clean` - clean project dependencies
-* `clean-deps` - remove all of the build dependencies too
+* `install` -- install hoofli from the current working tree
+* `build` -- build hoofli
+* `clean` -- remove build artifacts from the working tree
+* `clean-deps` -- remove dependencies in the working tree
+* `test-deps` -- ci target - install test dependencies
+* `build-deps` -- ci target - install build dependencies
+* `deps` -- ci target - install build and tets dependencies
+* `test` -- run unit tests with tparse prettyfying
+* `acceptance-test` -- run acceptance tests on built hoofli
+* `ci-test` -- ci target - run unit tests
+* `lint` -- run linting
+* `release` -- ci target - release hoofli
+* `update` -- update dependencies
+* `help` -- Show this help.
 
 
 ## Contributing
@@ -69,7 +62,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Your name here** - *Initial work* - [dnnrly](https://github.com/dnnrly)
+* **Pascal Dennerly** - *Initial work* - [dnnrly](https://github.com/dnnrly)
 
 See also the list of [contributors](https://github.com/dnnrly/hoofli/contributors) who participated in this project.
 
