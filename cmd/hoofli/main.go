@@ -13,7 +13,7 @@ import (
 
 type args struct {
 	Help          bool      `cli:"!h,help" usage:"show help"`
-	Input         clix.File `cli:"*i,input" usage:"the location of a HAR file to parse"`
+	Input         clix.File `cli:"*i,input" usage:"the location of a HAR file to parse (required)"`
 	ExcludeURL    []string  `cli:"exclude-url" usage:"regular expression of URLs to exclude from the diagram"`
 	ExcludeHeader []string  `cli:"exclude-header" usage:"header to exclude from the diagram in the form <header name>=<value regex>"`
 }
@@ -24,7 +24,14 @@ func (a *args) AutoHelp() bool {
 }
 
 func main() {
-	os.Exit(cli.Run(new(args), rootCmd))
+	os.Exit(cli.Run(
+		new(args), rootCmd,
+		"Generate PlantUML diagrams from Chrome or Firefox network inspections",
+		"",
+		"This tool reads browser HAR files stored on your local disk and transforms them into",
+		"PlantUML formatted files. You will need to download PlantUML from https://plantuml.com/",
+		"or use the package management tool of your choice",
+	))
 }
 
 func rootCmd(ctx *cli.Context) error {

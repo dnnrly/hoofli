@@ -18,18 +18,18 @@ export PATH := $(BASE_DIR)/bin:$(PATH)
 
 .PHONY: install deps clean clean-deps test-deps build-deps deps test acceptance-test ci-test lint release update
 
-install:
+install: ## install hoofli from the current working tree
 	$(GO_BIN) install -v .
 
-build:
+build: ## build hoofli
 	$(GO_BIN) build -v -o ./$(NAME) ./cmd/$(NAME)
 
-clean:
+clean: ## remove build artifacts from the working tree
 	rm -f $(NAME)
 	rm -rf dist/
 	rm -rf cmd/$(NAME)/dist
 
-clean-deps:
+clean-deps: ## remove dependencies in the working tree
 	rm -rf ./bin
 	rm -rf ./tmp
 	rm -rf ./libexec
@@ -48,7 +48,7 @@ clean-deps:
 	cp ./tmp/godog-v0.11.0-linux-amd64/godog ./bin
 
 
-test-deps: ./bin/godog ./bin/tparse ./bin/golangci-lint
+test-deps: ./bin/godog ./bin/tparse ./bin/golangci-lint ## ci target - install test dependencies
 	$(GO_BIN) get -v ./...
 	$(GO_BIN) mod tidy
 
@@ -63,28 +63,31 @@ test-deps: ./bin/godog ./bin/tparse ./bin/golangci-lint
 	gunzip -f ./tmp/goreleaser.tar.gz
 	tar -C ./bin -xvf ./tmp/goreleaser.tar
 
-build-deps: ./bin/goreleaser
+build-deps: ./bin/goreleaser ## ci target - install build dependencies
 
-deps: build-deps test-deps
+deps: build-deps test-deps ## ci target - install build and tets dependencies
 
-test:
+test: ## run unit tests with tparse prettyfying
 	$(GO_BIN) test -json ./... | tparse -all
 
-acceptance-test:
+acceptance-test: ## run acceptance tests on built hoofli
 	cd test && godog -t @Acceptance
  
-ci-test:
+ci-test: ## ci target - run unit tests
 	$(GO_BIN) test -race -coverprofile=coverage.txt -covermode=atomic ./...
 
-lint:
+lint: ## run linting
 	golangci-lint run
 
-release: clean
+release: clean ## ci target - release hoofli
 	cd cmd/$(NAME) ; $(GORELEASER_BIN) $(PUBLISH_PARAM)
 
-update:
+update: ## update dependencies
 	$(GO_BIN) get -u
 	$(GO_BIN) mod tidy
 	make test
 	make install
 	$(GO_BIN) mod tidy
+
+help:   ## Show this help.
+	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/:.\+##/ --/'
