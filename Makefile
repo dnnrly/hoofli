@@ -59,7 +59,7 @@ test-deps: ./bin/godog ./bin/tparse ./bin/golangci-lint ## ci target - install t
 	mkdir ./tmp
 
 ./bin/goreleaser: ./bin ./tmp
-	$(CURL_BIN) --fail -L -o ./tmp/goreleaser.tar.gz https://github.com/goreleaser/goreleaser/releases/download/v0.117.2/goreleaser_Linux_x86_64.tar.gz
+	$(CURL_BIN) --fail -L -o ./tmp/goreleaser.tar.gz https://github.com/goreleaser/goreleaser/releases/download/v0.168.2/goreleaser_Linux_x86_64.tar.gz
 	gunzip -f ./tmp/goreleaser.tar.gz
 	tar -C ./bin -xvf ./tmp/goreleaser.tar
 
