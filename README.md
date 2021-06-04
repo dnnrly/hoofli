@@ -6,6 +6,7 @@ Generate PlantUML diagrams from Chrome or Firefox network inspections
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/dnnrly/hoofli/Release%20workflow)](https://github.com/dnnrly/hoofli/actions?query=workflow%3A%22Release+workflow%22)
 [![report card](https://goreportcard.com/badge/github.com/dnnrly/hoofli)](https://goreportcard.com/report/github.com/dnnrly/hoofli)
 [![godoc](https://godoc.org/github.com/dnnrly/hoofli?status.svg)](http://godoc.org/github.com/dnnrly/hoofli)
+[![codecov](https://codecov.io/gh/dnnrly/hoofli/branch/main/graph/badge.svg?token=7SK2qu0f8f)](https://codecov.io/gh/dnnrly/hoofli)
 
 ![GitHub watchers](https://img.shields.io/github/watchers/dnnrly/hoofli?style=social)
 ![GitHub stars](https://img.shields.io/github/stars/dnnrly/hoofli?style=social)
