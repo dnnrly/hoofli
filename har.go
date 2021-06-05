@@ -10,7 +10,7 @@ import (
 // Property is a key value pair
 type Property struct {
 	// Name of the value represented
-	Name  string `json:"name"`
+	Name string `json:"name"`
 
 	// Value being represented
 	Value string `json:"value"`
