@@ -7,19 +7,26 @@ import (
 	"time"
 )
 
+// Property is a key value pair
 type Property struct {
+	// Name of the value represented
 	Name  string `json:"name"`
+
+	// Value being represented
 	Value string `json:"value"`
 }
 
+// Properties is a collection of Property
 type Properties []Property
 
+// Content is the payload of a request or response
 type Content struct {
 	Mimetype string `json:"mimeType"`
 	Size     int    `json:"size"`
 	Text     string `json:"text"`
 }
 
+// Page is the data that relates to a single browser page rather the requests and responses
 type Page struct {
 	Starteddatetime time.Time `json:"startedDateTime"`
 	ID              string    `json:"id"`
@@ -30,8 +37,10 @@ type Page struct {
 	} `json:"pageTimings"`
 }
 
+// Pages is a collection of Page
 type Pages []Page
 
+// Response represents the data about the response to a request
 type Response struct {
 	Status      int        `json:"status"`
 	Statustext  string     `json:"statusText"`
@@ -44,6 +53,7 @@ type Response struct {
 	Bodysize    int        `json:"bodySize"`
 }
 
+// Timing contains the timing of various different parts of the request and response for an entry
 type Timing struct {
 	Blocked float32 `json:"blocked"`
 	DNS     float32 `json:"dns"`
@@ -54,6 +64,7 @@ type Timing struct {
 	Receive float32 `json:"receive"`
 }
 
+// Cache represents data cached from a request's response
 type Cache struct {
 	Afterrequest struct {
 		Expires      string `json:"expires"`
@@ -66,6 +77,7 @@ type Cache struct {
 	} `json:"afterRequest"`
 }
 
+// Request represents information about the request portion of an Entry
 type Request struct {
 	Bodysize    int        `json:"bodySize"`
 	Method      string     `json:"method"`
@@ -78,6 +90,7 @@ type Request struct {
 	Postdata    Content    `json:"postData"`
 }
 
+// Entry represents a single entry in the network log
 type Entry struct {
 	Pageref         string    `json:"pageref"`
 	Starteddatetime time.Time `json:"startedDateTime"`
@@ -91,8 +104,10 @@ type Entry struct {
 	Request         Request   `json:"request,omitempty"`
 }
 
+// Entries is a group of entries
 type Entries []Entry
 
+// ExcludeByURL filters out entries whose request URL matches the supplied regex
 func (e Entries) ExcludeByURL(pattern string) Entries {
 	result := Entries{}
 	for i := range e {
@@ -104,6 +119,7 @@ func (e Entries) ExcludeByURL(pattern string) Entries {
 	return result
 }
 
+// ExcludeByResponseHeader filters out entries by named headers whose value matches the supplied regex
 func (e Entries) ExcludeByResponseHeader(header, value string) Entries {
 	result := Entries{}
 	p := regexp.MustCompile(value)
@@ -122,6 +138,7 @@ func (e Entries) ExcludeByResponseHeader(header, value string) Entries {
 	return result
 }
 
+// Log represents the contents of a Har log
 type Log struct {
 	Version string   `json:"version"`
 	Creator Property `json:"creator"`
@@ -139,6 +156,7 @@ type Har struct {
 	Log Log `json:"log"`
 }
 
+// NewHar creates a new Har from a reader
 func NewHar(r io.Reader) (*Har, error) {
 	var har Har
 	err := json.NewDecoder(r).Decode(&har)

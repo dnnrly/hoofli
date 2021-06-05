@@ -6,6 +6,7 @@ import (
 	"net/url"
 )
 
+// Draw writes a plantuml formatted sequence diagram representing the Har to the writer
 func (h *Har) Draw(w io.Writer) error {
 	fmt.Fprintln(w, "@startuml")
 	fmt.Fprintln(w, "")
