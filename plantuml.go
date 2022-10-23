@@ -8,6 +8,10 @@ import (
 
 // Draw writes a plantuml formatted sequence diagram representing the Har to the writer
 func (h *Har) Draw(w io.Writer) error {
+	// initiatorTypesUsed stores the used initiator types for rendering the
+	// correct legend at the end. Using a map over a list gives us automatic
+	// deduplication.
+	initiatorTypesUsed := map[string]bool{}
 	fmt.Fprintln(w, "@startuml")
 	fmt.Fprintln(w, "")
 	fmt.Fprintln(w, "participant Browser")
@@ -28,7 +32,18 @@ func (h *Har) Draw(w io.Writer) error {
 					h.Log.Entries[i].Request.URL,
 				)
 				fmt.Fprintf(w, "return %d\n", h.Log.Entries[i].Response.Status)
+				// remember we used an initiator of this type
+				initiatorTypesUsed[h.Log.Entries[i].Initiator.Type] = true
 			}
+		}
+		// add a note explaining the colors of the connections
+		if len(initiatorTypesUsed) > 1 {
+			fmt.Fprintf(w, "note over Browser: Connection color represents initiator type:")
+			for t, _ := range initiatorTypesUsed {
+				color := InitiatorTypeToColor(t)
+				fmt.Fprintf(w, "\\n<font color=%s>%s (%s)</font>", color, t, color)
+			}
+			fmt.Fprintf(w, "\n")
 		}
 		fmt.Fprintln(w, "deactivate Browser")
 	}
