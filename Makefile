@@ -65,9 +65,9 @@ test-deps: ./bin/godog ./bin/tparse ./bin/golangci-lint ## ci target - install t
 
 build-deps: ./bin/goreleaser ## ci target - install build dependencies
 
-deps: build-deps test-deps ## ci target - install build and tets dependencies
+deps: build-deps test-deps ## ci target - install build and test dependencies
 
-test: ## run unit tests with tparse prettyfying
+test: ## run unit tests with tparse prettifying
 	$(GO_BIN) test -json ./... | tparse -all
 
 acceptance-test: ## run acceptance tests on built hoofli
