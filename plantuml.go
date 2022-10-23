@@ -35,3 +35,20 @@ func (h *Har) Draw(w io.Writer) error {
 	fmt.Fprintln(w, "@enduml")
 	return nil
 }
+
+// InitiatorTypeToColor converts the value found in
+// log.entries[]._initiator.type to a drawable color for plantuml. If the type
+// is not known yet, it will be rendered in the color specified as defaultColor.
+func InitiatorTypeToColor(strType string) string {
+	const defaultColor = "black"
+	colors := map[string]string{
+		"script":   "red",
+		"renderer": "blue",
+		"other":    "green",
+	}
+	out, ok := colors[strType]
+	if !ok {
+		return defaultColor
+	}
+	return out
+}
