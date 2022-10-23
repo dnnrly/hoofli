@@ -21,7 +21,8 @@ func (h *Har) Draw(w io.Writer) error {
 				if parsedURL, err := url.Parse(dest); err == nil {
 					dest = parsedURL.Host
 				}
-				fmt.Fprintf(w, "Browser->\"%s\" ++ : %s %s\n",
+				fmt.Fprintf(w, "Browser-[#%s]->\"%s\" ++ : %s %s\n",
+					InitiatorTypeToColor(h.Log.Entries[i].Initiator.Type),
 					dest,
 					h.Log.Entries[i].Request.Method,
 					h.Log.Entries[i].Request.URL,
