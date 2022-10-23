@@ -1,0 +1,17 @@
+@startuml
+
+participant Browser
+
+->Browser : Example
+activate Browser
+Browser-[#black]->"example.com" ++ : GET https://example.com/page-1
+return 200
+Browser-[#red]->"example.com" ++ : GET https://example.com/page-1
+return 200
+Browser-[#blue]->"example.com" ++ : GET https://example.com/page-1
+return 200
+Browser-[#green]->"example.com" ++ : GET https://example.com/page-1
+return 200
+deactivate Browser
+
+@enduml
