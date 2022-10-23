@@ -43,8 +43,8 @@ $ make build acceptance-test
 * `clean-deps` -- remove dependencies in the working tree
 * `test-deps` -- ci target - install test dependencies
 * `build-deps` -- ci target - install build dependencies
-* `deps` -- ci target - install build and tets dependencies
-* `test` -- run unit tests with tparse prettyfying
+* `deps` -- ci target - install build and test dependencies
+* `test` -- run unit tests with tparse prettifying
 * `acceptance-test` -- run acceptance tests on built hoofli
 * `ci-test` -- ci target - run unit tests
 * `lint` -- run linting
