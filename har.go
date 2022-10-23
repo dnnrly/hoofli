@@ -90,6 +90,12 @@ type Request struct {
 	Postdata    Content    `json:"postData"`
 }
 
+// Initiator represents information about the initiator of the request which
+// caused the Entry
+type Initiator struct {
+	Type string `json:"type"`
+}
+
 // Entry represents a single entry in the network log
 type Entry struct {
 	Pageref         string    `json:"pageref"`
@@ -102,6 +108,7 @@ type Entry struct {
 	Connection      string    `json:"connection,omitempty"`
 	Cache           Cache     `json:"cache,omitempty"`
 	Request         Request   `json:"request,omitempty"`
+	Initiator       Initiator `json:"_initiator,omitempty"`
 }
 
 // Entries is a group of entries
