@@ -11,7 +11,12 @@ func (h *Har) Draw(w io.Writer) error {
 	// initiatorTypesUsed stores the used initiator types for rendering the
 	// correct legend at the end. Using a map over a list gives us automatic
 	// deduplication.
-	initiatorTypesUsed := map[string]bool{}
+	initiatorTypesUsed := map[string]bool{
+		"script":   false,
+		"renderer": false,
+		"other":    false,
+		"":         false,
+	}
 	fmt.Fprintln(w, "@startuml")
 	fmt.Fprintln(w, "")
 	fmt.Fprintln(w, "participant Browser")
@@ -37,7 +42,7 @@ func (h *Har) Draw(w io.Writer) error {
 			}
 		}
 		// add a note explaining the colors of the connections
-		if len(initiatorTypesUsed) > 1 {
+		if shouldRenderLegend(initiatorTypesUsed) {
 			fmt.Fprintf(w, "note over Browser: Connection color represents initiator type:")
 			for t, _ := range initiatorTypesUsed {
 				color := InitiatorTypeToColor(t)
@@ -67,4 +72,16 @@ func InitiatorTypeToColor(strType string) string {
 		return defaultColor
 	}
 	return out
+}
+
+// shouldRenderLegend decides if the legend explaining the initiator types
+// should be rendered. It will decide to render the legend if at least one
+// initiator type other than the "unspecified" type was used.
+func shouldRenderLegend(initiatorTypesUsed map[string]bool) bool {
+	for initiatorType, wasUsed := range initiatorTypesUsed {
+		if initiatorType != "" && wasUsed {
+			return true
+		}
+	}
+	return false
 }
