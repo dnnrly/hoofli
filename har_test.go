@@ -18,6 +18,8 @@ var (
 	multipageExample string
 	//go:embed test/reference/plantuml/initiator-example.puml
 	initiatorExample string
+	//go:embed test/reference/plantuml/some-initiator-example.puml
+	someInitiatorExample string
 )
 
 func TestCreatesHarFromGooglePage(t *testing.T) {
@@ -170,6 +172,54 @@ func TestDrawHar_InitiatorTypes(t *testing.T) {
 
 	require.NoError(t, err)
 	require.Equal(t, output.String(), initiatorExample)
+}
+
+// This test ensures that the legend does only render the initiator types which
+// were actually used in the HAR file
+func TestDrawHar_SomeInitiatorTypes(t *testing.T) {
+	har := hoofli.Har{
+		Log: hoofli.Log{
+			Pages: []hoofli.Page{{
+				ID:    "page-1",
+				Title: "Example",
+			}},
+			Entries: []hoofli.Entry{
+				{
+					// unspecified _initiator
+					Pageref: "page-1",
+					Request: hoofli.Request{
+						Method: "GET",
+						URL:    "https://example.com/page-1",
+					},
+					Response: hoofli.Response{Status: 200},
+				},
+				{
+					Initiator: hoofli.Initiator{Type: "script"},
+					Pageref:   "page-1",
+					Request: hoofli.Request{
+						Method: "GET",
+						URL:    "https://example.com/page-1",
+					},
+					Response: hoofli.Response{Status: 200},
+				},
+				{
+					Initiator: hoofli.Initiator{Type: "other"},
+					Pageref:   "page-1",
+					Request: hoofli.Request{
+						Method: "GET",
+						URL:    "https://example.com/page-1",
+					},
+					Response: hoofli.Response{Status: 200},
+				},
+			},
+		},
+	}
+
+	var output bytes.Buffer
+	err := har.Draw(&output)
+
+	require.NoError(t, err)
+	require.Equal(t, output.String(), someInitiatorExample)
 }
 
 func TestEntriesURLFilter_FixedPattern(t *testing.T) {

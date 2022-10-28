@@ -8,11 +8,9 @@ Browser-[#black]->"example.com" ++ : GET https://example.com/page-1
 return 200
 Browser-[#red]->"example.com" ++ : GET https://example.com/page-1
 return 200
-Browser-[#blue]->"example.com" ++ : GET https://example.com/page-1
-return 200
 Browser-[#green]->"example.com" ++ : GET https://example.com/page-1
 return 200
-note over Browser: Connection color represents initiator type:\n<font color=red>script (red)</font>\n<font color=blue>renderer (blue)</font>\n<font color=green>other (green)</font>
+note over Browser: Connection color represents initiator type:\n<font color=red>script (red)</font>\n<font color=green>other (green)</font>
 deactivate Browser
 
 @enduml
