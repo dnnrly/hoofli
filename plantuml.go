@@ -17,6 +17,7 @@ func (h *Har) Draw(w io.Writer) error {
 		"other":    false,
 		"":         false,
 	}
+	initiatorTypeOrder := []string{"script", "renderer", "other"}
 	fmt.Fprintln(w, "@startuml")
 	fmt.Fprintln(w, "")
 	fmt.Fprintln(w, "participant Browser")
@@ -44,7 +45,11 @@ func (h *Har) Draw(w io.Writer) error {
 		// add a note explaining the colors of the connections
 		if shouldRenderLegend(initiatorTypesUsed) {
 			fmt.Fprintf(w, "note over Browser: Connection color represents initiator type:")
-			for t, _ := range initiatorTypesUsed {
+			for _, t := range initiatorTypeOrder {
+				if initiatorTypesUsed[t] == false {
+					// skip unused initiator type
+					continue
+				}
 				color := InitiatorTypeToColor(t)
 				fmt.Fprintf(w, "\\n<font color=%s>%s (%s)</font>", color, t, color)
 			}
