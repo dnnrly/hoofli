@@ -18,6 +18,8 @@ var (
 	multipageExample string
 	//go:embed test/reference/plantuml/initiator-example.puml
 	initiatorExample string
+	//go:embed test/reference/plantuml/canceled-example.puml
+	canceledExample string
 )
 
 func TestCreatesHarFromGooglePage(t *testing.T) {
@@ -70,6 +72,37 @@ func TestDrawHar_SinglePage(t *testing.T) {
 
 	require.NoError(t, err)
 	require.Equal(t, output.String(), simpleExample)
+}
+
+func TestDrawHar_Canceled_Example(t *testing.T) {
+	har := hoofli.Har{
+		Log: hoofli.Log{
+			Pages: []hoofli.Page{
+				{
+					ID:    "page-1",
+					Title: "Example",
+				},
+			},
+			Entries: []hoofli.Entry{
+				{
+					Pageref: "page-1",
+					Request: hoofli.Request{
+						Method: "GET",
+						URL:    "https://example.com/page-1",
+					},
+					Response: hoofli.Response{
+						Status: 0,
+					},
+				},
+			},
+		},
+	}
+
+	var output bytes.Buffer
+	err := har.Draw(&output)
+
+	require.NoError(t, err)
+	require.Equal(t, canceledExample, output.String())
 }
 
 func TestDrawHar_MultiPage(t *testing.T) {
