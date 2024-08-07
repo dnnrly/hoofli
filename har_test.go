@@ -69,7 +69,7 @@ func TestDrawHar_SinglePage(t *testing.T) {
 	err := har.Draw(&output)
 
 	require.NoError(t, err)
-	require.Equal(t, output.String(), simpleExample)
+	require.Equal(t, simpleExample, output.String())
 }
 
 func TestDrawHar_MultiPage(t *testing.T) {
@@ -114,7 +114,7 @@ func TestDrawHar_MultiPage(t *testing.T) {
 	err := har.Draw(&output)
 
 	require.NoError(t, err)
-	require.Equal(t, output.String(), multipageExample)
+	require.Equal(t, multipageExample, output.String())
 }
 
 func TestDrawHar_InitiatorTypes(t *testing.T) {
@@ -169,7 +169,7 @@ func TestDrawHar_InitiatorTypes(t *testing.T) {
 	err := har.Draw(&output)
 
 	require.NoError(t, err)
-	require.Equal(t, output.String(), initiatorExample)
+	require.Equal(t, initiatorExample, output.String())
 }
 
 func TestEntriesURLFilter_FixedPattern(t *testing.T) {
