@@ -1,0 +1,10 @@
+@startuml
+
+participant Browser
+
+->Browser : Example
+activate Browser
+Browser-[#black]-x "example.com" ++ : GET https://example.com/page-1
+deactivate Browser
+
+@enduml

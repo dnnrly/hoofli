@@ -25,13 +25,24 @@ func (h *Har) Draw(w io.Writer) error {
 				if parsedURL, err := url.Parse(dest); err == nil {
 					dest = parsedURL.Host
 				}
-				fmt.Fprintf(w, "Browser-[#%s]->\"%s\" ++ : %s %s\n",
+				requestWasBlocked := h.Log.Entries[i].Response.Status == 0
+				connectorTip := ">"
+				if requestWasBlocked {
+					// a "Browser-x server" connector needs a space after the x
+					connectorTip = "x "
+				}
+
+				fmt.Fprintf(w, "Browser-[#%s]-%s\"%s\" ++ : %s %s\n",
 					InitiatorTypeToColor(h.Log.Entries[i].Initiator.Type),
+					connectorTip,
 					dest,
 					h.Log.Entries[i].Request.Method,
 					h.Log.Entries[i].Request.URL,
 				)
-				fmt.Fprintf(w, "return %d\n", h.Log.Entries[i].Response.Status)
+				if !requestWasBlocked {
+					// only draw the return message when the request was not blocked
+					fmt.Fprintf(w, "return %d\n", h.Log.Entries[i].Response.Status)
+				}
 				// remember we used an initiator of this type
 				initiatorTypesUsed[h.Log.Entries[i].Initiator.Type] = true
 			}
